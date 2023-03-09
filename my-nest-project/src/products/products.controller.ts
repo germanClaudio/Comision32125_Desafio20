@@ -15,8 +15,7 @@ export class ProductsController {
 
      @Get()
         async getAllProducts(): Promise<Products[]> {
-            return this.productsService.getAllProducts();   
-
+            return this.productsService.getAllProducts();
         }
 
     @Get(':id')

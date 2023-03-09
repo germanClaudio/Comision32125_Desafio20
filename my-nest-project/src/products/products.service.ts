@@ -2,12 +2,19 @@ import { Injectable } from '@nestjs/common';
 
 import { Products } from '../interfaces/products/products.interface';
 
-
 @Injectable()
 export class ProductsService {
     private readonly products: Products[] = []
 
     createNewProduct(product: Products) {
+        let newId : number
+        if (this.products.length === 0) {
+            newId = 1
+        } else {
+            newId = this.products[this.products.length - 1].id + 1
+        }
+
+        product = {  id: newId, ...product }
         return this.products.push(product);
     }
 
@@ -16,7 +23,15 @@ export class ProductsService {
     }
 
     getProductById(id: number) {
-        return this.products.find(p => p.id === id);
+        const index = this.products.findIndex(p => p.id === id);
+        if (index !== -1) {
+            return this.products.find(p => p.id === id);
+        }
+        else {
+            console.log(
+                "Lo sentimos, el Id del producto ingresado NO existe en nuestra Base de Datos"
+              );
+        }
     }
 
     updateProduct(product: Products) {
